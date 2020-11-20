@@ -1,0 +1,24 @@
+galaxy_info:
+  author: 0xeadbeefJERKY
+  description: Install Mythic post-exploit red teaming framework 
+
+  license: MIT
+
+  min_ansible_version: 2.9
+
+  platforms:
+  - name: debian
+    versions:
+    - stretch
+    - buster
+  - name: ubuntu
+    versions:
+    - focal
+    - bionic
+    
+  galaxy_tags: 
+    - "mythic"
+    - "security"
+
+dependencies: []
+  

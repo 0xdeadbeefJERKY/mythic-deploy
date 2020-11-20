@@ -1,0 +1,22 @@
+---
+- name: Update and upgrade packages
+  apt:
+    upgrade: yes
+    update_cache: yes
+
+- name: Clone Mythic Git repo
+  git:
+    repo: https://github.com/its-a-feature/Mythic
+    dest: /root/mythic
+    force: yes
+
+- name: Upload custom Mythic config.json
+  copy:
+    src: ./files/config.json
+    dest: /root/mythic/mythic-docker/config.json
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Install Docker using Mythic-provided script
+  command: /root/mythic/install_docker_{{ ansible_distribution|lower }}.sh
