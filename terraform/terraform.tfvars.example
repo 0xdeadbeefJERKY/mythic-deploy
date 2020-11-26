@@ -1,0 +1,32 @@
+ports = [
+    {
+      proto   = "tcp"
+      port = 22
+      allow = ["1.2.3.4/32"]
+      desc = "Allow SSH access to Mythic server from allowlisted IPs"
+    },
+    {
+      proto   = "tcp"
+      port = 80
+      allow = ["1.2.3.4/32"]
+      desc = "Allow HTTP access to Mythic server from allowlisted IPs"
+    },
+    {
+      proto   = "tcp"
+      port = 443
+      allow = ["1.2.3.4/32"]
+      desc = "Allow HTTPS access to Mythic server from allowlisted IPs"
+    },
+    {
+      proto   = "tcp"
+      port = 7443
+      allow = ["1.2.3.4/32"]
+      desc = "Allow HTTPS admin access to Mythic server from allowlisted IPs"
+    },
+    {
+      proto   = "tcp"
+      port = 8080
+      allow = ["1.2.3.4/32"]
+      desc = "Allow HTTP documentation access to Mythic server from allowlisted IPs"
+    },
+]

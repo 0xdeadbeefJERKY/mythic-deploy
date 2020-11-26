@@ -1,28 +1,9 @@
 provider "digitalocean" {}
 
-# Generate SSH keypair
-resource "tls_private_key" "default" {
-  algorithm = "RSA"
-  rsa_bits = 4096
-}
-
-# Save private key to local file
-resource "local_file" "privkey" {
-  content = tls_private_key.default.private_key_pem
-  filename = "${path.cwd}/ssh_keys/${var.name}"
-  file_permission = "0600"
-}
-
-# Save public key to local file
-resource "local_file" "pubkey" {
-  content = tls_private_key.default.public_key_openssh
-  filename = "${path.cwd}/ssh_keys/${var.name}.pub"
-}
-
 # Add SSH key to Digital Ocean
 resource "digitalocean_ssh_key" "default" {
   name       = "${var.name}-ssh-key"
-  public_key = tls_private_key.default.public_key_openssh
+  public_key = var.public_key_openssh
 }
 
 # Create Digital Ocean firewall that restricts inbound 
@@ -78,7 +59,7 @@ resource "local_file" "sshconfig" {
   content = templatefile("${path.cwd}/templates/config.tpl", {
     host = var.name
     hostname = digitalocean_droplet.mythic.ipv4_address
-    identityfile = local_file.privkey.filename
+    identityfile = var.privkey_filename
     user = "root"
   })
   filename = "${path.cwd}/ssh_keys/config"
@@ -89,7 +70,7 @@ resource "local_file" "inventory" {
   content = templatefile("${path.cwd}/templates/inventory.tpl", {
     host = var.name
     hostname = digitalocean_droplet.mythic.ipv4_address
-    identityfile = local_file.privkey.filename
+    identityfile = var.privkey_filename
     user = "root"
   })
   filename = "${path.cwd}/../ansible/inventory"
