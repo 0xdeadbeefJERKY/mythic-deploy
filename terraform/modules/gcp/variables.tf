@@ -4,27 +4,30 @@ variable "name" {
   type        = string
 }
 
-variable "ami" {
-  description = "EC2 AMI to be used"
-  default     = "ami-0b893eef6e21b60a1" # Ubuntu 18.04 (Bionic) in us-east-1 region
+variable "project" {
+  description = "Project to which the instance will be deployed"
+  type        = string
+}
+
+variable "image" {
+  description = "VM image to be used"
+  default     = "ubuntu-1804-lts"
+  type        = string
+}
+
+variable "machine_type" {
+  description = "Region to which the instance will be deployed"
+  default     = "e2-small"
   type        = string
 }
 
 variable "region" {
-  default     = "us-east-1"
-  description = "AWS region to which the instance will be deployed"
+  description = "Region to which the instance will be deployed"
   type        = string
 }
 
-variable "instance_type" {
-  default     = "t2.small"
-  description = "EC2 instance type"
-  type        = string
-}
-
-variable "vpc_cidr" {
-  default     = "10.0.0.0/16"
-  description = "CIDR block assigned to VPC"
+variable "zone" {
+  description = "Zone to which the instance will be deployed"
   type        = string
 }
 

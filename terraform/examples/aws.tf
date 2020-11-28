@@ -5,10 +5,10 @@ module "ssh_key" {
 }
 
 module "aws" {
-  source = "./modules/aws"
+  source             = "./modules/aws"
   public_key_openssh = module.ssh_key.public_key_openssh
-  ports = var.ports
-  privkey_filename = module.ssh_key.privkey_filename
+  ports              = var.ports
+  privkey_filename   = module.ssh_key.privkey_filename
 }
 
 output "ec2_ip" {

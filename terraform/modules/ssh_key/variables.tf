@@ -1,4 +1,4 @@
 variable "name" {
   description = "SSH key filename"
-  default = "mythic"
+  default     = "mythic"
 }
