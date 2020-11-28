@@ -5,10 +5,10 @@ module "ssh_key" {
 }
 
 module "digitalocean" {
-  source = "./modules/digitalocean"
+  source             = "./modules/digitalocean"
   public_key_openssh = module.ssh_key.public_key_openssh
-  ports = var.ports
-  privkey_filename = module.ssh_key.privkey_filename
+  ports              = var.ports
+  privkey_filename   = module.ssh_key.privkey_filename
 }
 
 output "droplet_ip" {

@@ -1,8 +1,10 @@
-provider "aws" {}
+provider "aws" {
+  region = var.region
+}
 
 # Create a VPC
 resource "aws_vpc" "main" {
-  cidr_block = var.vpc_cidr 
+  cidr_block = var.vpc_cidr
 
   tags = {
     Name = "${var.name}-vpc"
@@ -33,18 +35,18 @@ resource "aws_security_group" "main" {
   vpc_id      = aws_vpc.main.id
 
   dynamic "ingress" {
-    for_each = [for p in var.ports: {
+    for_each = [for p in var.ports : {
       proto = p.proto
-      port = p.port
+      port  = p.port
       allow = p.allow
-      desc = p.desc
+      desc  = p.desc
     }]
 
     content {
       description = ingress.value.desc
-      protocol = ingress.value.proto
-      from_port = ingress.value.port
-      to_port = ingress.value.port
+      protocol    = ingress.value.proto
+      from_port   = ingress.value.port
+      to_port     = ingress.value.port
       cidr_blocks = ingress.value.allow
     }
   }
@@ -63,11 +65,11 @@ resource "aws_security_group" "main" {
 
 # Create EC2 instance to which Mythic will be deployed
 resource "aws_instance" "mythic" {
-  ami = var.ami
-  instance_type = var.instance_type
-  key_name = aws_key_pair.main.key_name
-  security_groups = [aws_security_group.main.id]
-  subnet_id = aws_subnet.main.id
+  ami                         = var.ami
+  instance_type               = var.instance_type
+  key_name                    = aws_key_pair.main.key_name
+  security_groups             = [aws_security_group.main.id]
+  subnet_id                   = aws_subnet.main.id
   associate_public_ip_address = true
 
   tags = {
@@ -87,7 +89,7 @@ resource "aws_internet_gateway" "main" {
 # Setup route table and associate with subnet
 resource "aws_route_table" "main" {
   vpc_id = aws_vpc.main.id
-  
+
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.main.id
@@ -106,10 +108,10 @@ resource "aws_route_table_association" "main" {
 # Create SSH config file
 resource "local_file" "sshconfig" {
   content = templatefile("${path.cwd}/templates/config.tpl", {
-    host = var.name
-    hostname = aws_instance.mythic.public_ip
+    host         = var.name
+    hostname     = aws_instance.mythic.public_ip
     identityfile = var.privkey_filename
-    user = "ubuntu"
+    user         = var.user
   })
   filename = "${path.cwd}/ssh_keys/config"
 }
@@ -117,10 +119,10 @@ resource "local_file" "sshconfig" {
 # Populate Ansible inventory file
 resource "local_file" "inventory" {
   content = templatefile("${path.cwd}/templates/inventory.tpl", {
-    host = var.name
-    hostname = aws_instance.mythic.public_ip
+    host         = var.name
+    hostname     = aws_instance.mythic.public_ip
     identityfile = var.privkey_filename
-    user = "ubuntu"
+    user         = var.user
   })
   filename = "${path.cwd}/../ansible/inventory"
 }
