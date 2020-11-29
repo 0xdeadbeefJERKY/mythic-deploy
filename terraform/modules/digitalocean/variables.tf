@@ -1,5 +1,5 @@
 variable "name" {
-  description = "Mythic instance name (prefix used for component nmes)"
+  description = "Mythic instance name (prefix used for component names)"
   default     = "mythic"
   type        = string
 }
@@ -28,31 +28,31 @@ variable "ports" {
       proto = "tcp"
       port  = 22
       allow = ["0.0.0.0/0", "::/0"]
-      desc  = "Allow SSH access to Mythic server from allowlisted IPs"
+      desc  = "Allow SSH access to Mythic server from any IP"
     },
     {
       proto = "tcp"
       port  = 80
       allow = ["0.0.0.0/0", "::/0"]
-      desc  = "Allow HTTP access to Mythic server from allowlisted IPs"
+      desc  = "Allow HTTP access to Mythic server from any IP"
     },
     {
       proto = "tcp"
       port  = 443
       allow = ["0.0.0.0/0", "::/0"]
-      desc  = "Allow HTTPS access to Mythic server from allowlisted IPs"
+      desc  = "Allow HTTPS access to Mythic server from any IP"
     },
     {
       proto = "tcp"
       port  = 7443
       allow = ["0.0.0.0/0", "::/0"]
-      desc  = "Allow HTTPS admin access to Mythic server from allowlisted IPs"
+      desc  = "Allow HTTPS admin access to Mythic server from any IP"
     },
     {
       proto = "tcp"
       port  = 8080
       allow = ["0.0.0.0/0", "::/0"]
-      desc  = "Allow HTTP documentation access to Mythic server from allowlisted IPs"
+      desc  = "Allow HTTP documentation access to Mythic server from any IP"
     },
   ]
 }

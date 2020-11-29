@@ -1,14 +1,14 @@
 provider "digitalocean" {}
 
 # Add SSH key to Digital Ocean
-resource "digitalocean_ssh_key" "default" {
+resource "digitalocean_ssh_key" "main" {
   name       = "${var.name}-ssh-key"
   public_key = var.public_key_openssh
 }
 
 # Create Digital Ocean firewall that restricts inbound 
 # traffic for Mythic server
-resource "digitalocean_firewall" "default" {
+resource "digitalocean_firewall" "main" {
   name = "ssh-and-mythic-ports-only"
 
   droplet_ids = [digitalocean_droplet.mythic.id]
@@ -51,7 +51,7 @@ resource "digitalocean_droplet" "mythic" {
   name     = var.name
   region   = var.region
   size     = var.size
-  ssh_keys = [digitalocean_ssh_key.default.fingerprint]
+  ssh_keys = [digitalocean_ssh_key.main.fingerprint]
 }
 
 # Create SSH config file

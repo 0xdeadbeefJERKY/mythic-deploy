@@ -25,8 +25,7 @@ resource "google_compute_subnetwork" "main" {
   network       = google_compute_network.main.id
 }
 
-# Create firewall allowing SSH and Mythic ports access to
-# predetermined IPs
+# Create firewall that restricts inbound traffic for Mythic server
 resource "google_compute_firewall" "main" {
   for_each = { for port in var.ports : port.port => port }
   name     = "allow-${each.value.port}"
